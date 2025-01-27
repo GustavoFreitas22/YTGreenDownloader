@@ -123,12 +123,17 @@ class App(customtkinter.CTk):
             self.check_and_create_path(self.folder_to_download_entry_env.get())
             if self.radio_var.get() == 0:
                 print(self.entry.get())
-                yt = YouTube(self.entry.get())
-                ys = yt.streams.get_highest_resolution()
-                ys.download(self.folder_to_download_entry_env.get())
                 print(typeToConvert)
-                if typeToConvert == "mp3":
+                print(self.switchMP3env.get().__contains__("on"))
+                yt = YouTube(self.entry.get())
+                if self.switchMP3env.get().__contains__("on"):
+                    ys = yt.streams.get_audio_only()
+                    ys.download(self.folder_to_download_entry_env.get())
+                    print("Convertendo para mp3")
                     self.convert_to_mp3(self.folder_to_download_entry_env.get())
+                else:
+                    ys = yt.streams.get_highest_resolution()
+                    ys.download(self.folder_to_download_entry_env.get())
             else:
                 print(self.entry.get())
                 ytPlaylist = Playlist(self.entry.get())
@@ -136,7 +141,8 @@ class App(customtkinter.CTk):
                     ys = video.streams.get_highest_resolution()
                     ys.download(self.folder_to_download_entry_env.get())
                 print(self.switchMP3env.get())
-                if self.switchMP3env.get() == "on":
+                print(typeToConvert)
+                if self.switchMP3env.get().__contains__("on"):
                     print("Convertendo para mp3")
                     self.convert_to_mp3(self.folder_to_download_entry_env.get())
         except Exception as e:
