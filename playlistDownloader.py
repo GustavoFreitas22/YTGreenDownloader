@@ -55,12 +55,8 @@ class App(customtkinter.CTk):
         self.slider_progressbar_frame.grid(row=1, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
         self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
         self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
-        self.progress_label = customtkinter.CTkLabel(self.slider_progressbar_frame, text="Download Progress ", font=customtkinter.CTkFont(size=16, weight="bold"))
-        self.progress_label.grid(row=0, column=0, padx=20, pady=(10, 10))
         self.error_label = customtkinter.CTkLabel(self.slider_progressbar_frame, text="", font=customtkinter.CTkFont(size=10, weight="bold"), text_color="red")
         self.error_label.grid(row=3, column=0, padx=10, pady=(10, 10))
-        self.progressbar_1 = customtkinter.CTkProgressBar(self.slider_progressbar_frame)
-        self.progressbar_1.grid(row=2, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
 
         # create main entry and button
         self.entry = customtkinter.CTkEntry(self, placeholder_text="YouTube URL")
@@ -91,7 +87,7 @@ class App(customtkinter.CTk):
         self.switchMP3.grid(row=0, column=0, padx=10, pady=(0, 20))   
         self.scrollable_frame_switches.append(self.switchMP3)
 
-        self.switchMP4env = customtkinter.StringVar(value="off")
+        self.switchMP4env = customtkinter.StringVar(value="on")
         self.switchMP4 = customtkinter.CTkSwitch(master=self.scrollable_frame, text=f"Convert to .MP4", command=self.change_type_convert, variable=self.switchMP4env, onvalue="on", offvalue="off")
         self.switchMP4.grid(row=1, column=0, padx=10, pady=(0, 20))   
         self.scrollable_frame_switches.append(self.switchMP4)
@@ -110,8 +106,9 @@ class App(customtkinter.CTk):
         elif self.switchMP4env.get() == "on":
             self.switchMP3.deselect()
             typeToConvert = "mp4"
-        else:
-            typeToConvert = "none"
+        elif self.switchMP4env.get() == "off" and self.switchMP3env.get() == "off":
+            typeToConvert = "mp4"
+            self.switchMP4.select()
 
         print(typeToConvert)
     
